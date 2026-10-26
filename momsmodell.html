@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pedagogisk steg-för-steg-modell som förklarar momsflöden mellan svenska och utländska företag." />
+  <title>Momsflöde — pedagogisk modell</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+:root {
+  --ink: #10221c;
+  --ink-soft: #3d524a;
+  --paper: #f3f7f4;
+  --paper-2: #e7efe9;
+  --surface: rgba(255, 255, 255, 0.78);
+  --surface-solid: #ffffff;
+  --accent: #0d5c4d;
+  --accent-deep: #084037;
+  --accent-bright: #1a9b7a;
+  --accent-wash: #d8efe7;
+  --se: #0d5c4d;
+  --com: #b45309;
+  --com-wash: #fff1df;
+  --agency: #1e3a5f;
+  --agency-wash: #e4ecf6;
+  --line: rgba(16, 34, 28, 0.12);
+  --shadow: 0 18px 50px rgba(8, 40, 32, 0.08);
+  --radius: 18px;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Figtree', system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: var(--font-body);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.app-shell {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  padding: 1.5rem clamp(1rem, 3vw, 2.5rem) 2.5rem;
+  overflow: hidden;
+}
+
+.bg-mesh {
+  position: fixed;
+  inset: -20% -10% auto;
+  height: 70vh;
+  z-index: -2;
+  background:
+    radial-gradient(ellipse 50% 45% at 15% 20%, rgba(26, 155, 122, 0.22), transparent 70%),
+    radial-gradient(ellipse 40% 50% at 85% 10%, rgba(180, 83, 9, 0.12), transparent 65%),
+    radial-gradient(ellipse 45% 40% at 55% 55%, rgba(30, 58, 95, 0.1), transparent 70%);
+  pointer-events: none;
+}
+
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(16, 34, 28, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 34, 28, 0.035) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black, transparent);
+  pointer-events: none;
+}
+
+.site-header {
+  max-width: 1100px;
+  margin: 0 auto 1.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.75rem 1.5rem;
+}
+
+.brand {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--accent-deep);
+}
+
+.brand-tag {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.site-footer {
+  max-width: 1100px;
+  margin: 2.5rem auto 0;
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+/* —— Step navigation —— */
+
+.step-nav {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) + 4px);
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow);
+}
+
+.step-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+
+.step-nav__btn {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.65rem 0.35rem;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--ink-soft);
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.step-nav__btn:hover {
+  background: var(--accent-wash);
+  color: var(--accent-deep);
+}
+
+.step-nav__num {
+  width: 1.85rem;
+  height: 1.85rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1.5px solid currentColor;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.step-nav__short {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.step-nav__item.is-current .step-nav__btn {
+  background: var(--accent);
+  color: #f4fff9;
+  border-color: var(--accent);
+}
+
+.step-nav__item.is-done .step-nav__num {
+  background: var(--accent-wash);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.step-nav__controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.65rem;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.7rem 1.25rem;
+  font-weight: 600;
+  transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: #f4fff9;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: var(--accent-deep);
+}
+
+.btn--ghost {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--accent-wash);
+}
+
+.btn--small {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.875rem;
+}
+
+/* —— Step content —— */
+
+.step-stage {
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) + 6px);
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+  animation: stage-in 0.45s ease both;
+}
+
+@keyframes stage-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.step-panel > * {
+  animation: rise 0.5s ease both;
+}
+
+.step-panel > *:nth-child(1) { animation-delay: 0.02s; }
+.step-panel > *:nth-child(2) { animation-delay: 0.07s; }
+.step-panel > *:nth-child(3) { animation-delay: 0.12s; }
+.step-panel > *:nth-child(4) { animation-delay: 0.17s; }
+.step-panel > *:nth-child(5) { animation-delay: 0.22s; }
+.step-panel > *:nth-child(6) { animation-delay: 0.27s; }
+.step-panel > *:nth-child(7) { animation-delay: 0.32s; }
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.step-kicker {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.step-title {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.65rem, 3.4vw, 2.35rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: var(--accent-deep);
+}
+
+.step-lead {
+  margin: 0 0 1.75rem;
+  max-width: 62ch;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.insight-card {
+  padding: 1.1rem 1.15rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: linear-gradient(160deg, #fff 0%, var(--paper-2) 100%);
+  animation: rise 0.5s ease both;
+}
+
+.insight-card h3 {
+  margin: 0 0 0.45rem;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+}
+
+.insight-card p {
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.45;
+  font-size: 0.95rem;
+}
+
+.obs-note {
+  margin-top: 1.5rem;
+  padding: 0.95rem 1.1rem;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 14px 14px 0;
+  background: var(--accent-wash);
+  color: var(--ink-soft);
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.obs-note strong {
+  color: var(--accent-deep);
+}
+
+/* —— Actors —— */
+
+.actors-stage {
+  display: grid;
+  gap: 1rem;
+}
+
+.actors-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  animation: rise 0.5s ease both;
+}
+
+.actors-row--center {
+  justify-content: center;
+}
+
+.actor-card {
+  position: relative;
+  min-width: min(100%, 220px);
+  flex: 1 1 200px;
+  max-width: 280px;
+  padding: 1.15rem 1.15rem 1.25rem;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--line);
+  background: var(--surface-solid);
+  box-shadow: 0 10px 30px rgba(8, 40, 32, 0.05);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.actor-card--compact {
+  min-width: 160px;
+  max-width: 220px;
+  padding: 0.9rem 1rem;
+}
+
+.actor-card.is-active {
+  transform: translateY(-2px);
+}
+
+.actor-card--se {
+  border-color: rgba(13, 92, 77, 0.35);
+  background: linear-gradient(165deg, #fff, #eef8f4);
+}
+
+.actor-card--com {
+  border-color: rgba(180, 83, 9, 0.35);
+  background: linear-gradient(165deg, #fff, var(--com-wash));
+}
+
+.actor-card--highlight {
+  border-color: var(--accent);
+  background: linear-gradient(165deg, #fff, #d6f0e6);
+  box-shadow: 0 14px 36px rgba(13, 92, 77, 0.15);
+}
+
+.actor-card--agency {
+  border-color: rgba(30, 58, 95, 0.35);
+  background: linear-gradient(165deg, #fff, var(--agency-wash));
+}
+
+.actor-card__badge {
+  display: inline-block;
+  margin-bottom: 0.55rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--paper-2);
+  color: var(--ink-soft);
+}
+
+.actor-card--se .actor-card__badge,
+.actor-card--highlight .actor-card__badge {
+  background: var(--accent-wash);
+  color: var(--accent-deep);
+}
+
+.actor-card--com .actor-card__badge {
+  background: var(--com-wash);
+  color: var(--com);
+}
+
+.actor-card--agency .actor-card__badge {
+  background: var(--agency-wash);
+  color: var(--agency);
+}
+
+.actor-card__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+
+.actor-card__subtitle {
+  margin: 0.35rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+/* —— Flow —— */
+
+.flow-stage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.flow-stage--stack {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.25rem;
+}
+
+.flow-stage__main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1rem;
+}
+
+.flow-stage__side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.flow-stage--refund {
+  margin-bottom: 1.75rem;
+}
+
+.flow-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 140px;
+  max-width: 220px;
+  flex: 1 1 140px;
+}
+
+.flow-arrow--down {
+  min-width: 160px;
+}
+
+.flow-arrow__label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.15rem;
+}
+
+.flow-arrow__tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.flow-arrow__amount {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  animation: amount-pop 0.55s ease both;
+}
+
+@keyframes amount-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.flow-arrow__note {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+.flow-arrow__line {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0;
+}
+
+.flow-arrow--down .flow-arrow__line {
+  flex-direction: column;
+  width: auto;
+  height: 48px;
+}
+
+.flow-arrow__shaft {
+  flex: 1;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+.flow-arrow--down .flow-arrow__shaft {
+  width: 3px;
+  height: 100%;
+  flex: 1;
+}
+
+.flow-arrow__head {
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 10px solid var(--accent);
+}
+
+.flow-arrow--down .flow-arrow__head {
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 10px solid var(--accent);
+  border-bottom: 0;
+}
+
+.flow-arrow--incl .flow-arrow__shaft,
+.flow-arrow--incl .flow-arrow__head {
+  filter: none;
+}
+
+.flow-arrow--incl .flow-arrow__amount {
+  color: var(--accent);
+}
+
+.flow-arrow--excl .flow-arrow__shaft {
+  background: var(--com);
+}
+
+.flow-arrow--excl .flow-arrow__head {
+  border-left-color: var(--com);
+}
+
+.flow-arrow--excl.flow-arrow--down .flow-arrow__head {
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-top-color: var(--com);
+}
+
+.flow-arrow--excl .flow-arrow__amount {
+  color: var(--com);
+}
+
+.flow-arrow--vat .flow-arrow__shaft {
+  background: var(--agency);
+}
+
+.flow-arrow--vat .flow-arrow__head {
+  border-left-color: var(--agency);
+}
+
+.flow-arrow--vat.flow-arrow--down .flow-arrow__head {
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-top-color: var(--agency);
+}
+
+.flow-arrow--vat .flow-arrow__amount {
+  color: var(--agency);
+}
+
+.flow-arrow--refund .flow-arrow__shaft {
+  background: var(--accent-bright);
+}
+
+.flow-arrow--refund .flow-arrow__head {
+  border-left-color: var(--accent-bright);
+}
+
+.flow-arrow--refund .flow-arrow__amount {
+  color: var(--accent-bright);
+}
+
+/* —— Figures —— */
+
+.figure-box {
+  padding: 1.1rem 1.2rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.figure-box__heading {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+}
+
+.figure-box__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px dashed var(--line);
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.figure-box__row:last-child {
+  border-bottom: 0;
+}
+
+.figure-box__row strong {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.figure-box__row--total {
+  margin-top: 0.25rem;
+  padding-top: 0.7rem;
+  border-bottom: 0;
+  border-top: 1.5px solid var(--ink);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.figure-box__row--total strong {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+}
+
+.figure-box__hint {
+  margin: 0.65rem 0 0;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.is-vat {
+  color: var(--accent) !important;
+}
+
+.is-zero {
+  color: var(--com) !important;
+}
+
+.is-refund {
+  color: var(--accent-bright) !important;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+/* —— Experiment —— */
+
+.experiment {
+  padding: 1.25rem;
+  border-radius: var(--radius);
+  border: 1.5px dashed rgba(13, 92, 77, 0.35);
+  background:
+    linear-gradient(135deg, rgba(216, 239, 231, 0.65), rgba(255, 255, 255, 0.9));
+}
+
+.experiment__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+
+.experiment__header h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+}
+
+.experiment__lead {
+  margin: 0 0 1.1rem;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  max-width: 70ch;
+}
+
+.experiment__fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.field span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.field input {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(26, 155, 122, 0.2);
+}
+
+.live-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--line);
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.pill--accent {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #f4fff9;
+}
+
+/* —— Skatteverket ledger —— */
+
+.agency-hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.agency-hero .actor-card {
+  flex: 0 1 240px;
+}
+
+.agency-hero__net {
+  flex: 1 1 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 1.25rem 1.4rem;
+  border-radius: var(--radius);
+  border: 1.5px solid rgba(30, 58, 95, 0.28);
+  background: linear-gradient(145deg, #fff, var(--agency-wash));
+}
+
+.agency-hero__label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--agency);
+}
+
+.agency-hero__net strong {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--agency);
+}
+
+.agency-hero__hint {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.ledger-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.ledger {
+  padding: 1.15rem 1.2rem 1.25rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.ledger--income {
+  border-color: rgba(13, 92, 77, 0.28);
+  background: linear-gradient(165deg, #fff, #eef8f4);
+}
+
+.ledger--expense {
+  border-color: rgba(180, 83, 9, 0.28);
+  background: linear-gradient(165deg, #fff, #fff7ee);
+}
+
+.ledger__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+}
+
+.ledger--income .ledger__title {
+  color: var(--accent-deep);
+}
+
+.ledger--expense .ledger__title {
+  color: var(--com);
+}
+
+.ledger__intro {
+  margin: 0.35rem 0 0.9rem;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.ledger__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.ledger__list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px dashed var(--line);
+}
+
+.ledger__list li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.ledger__list strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.ledger__list span {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height: 1.35;
+}
+
+.ledger__list em {
+  flex-shrink: 0;
+  font-style: normal;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+}
+
+.ledger--income .ledger__list em {
+  color: var(--accent);
+}
+
+.ledger--expense .ledger__list em {
+  color: var(--com);
+}
+
+.ledger__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1.5px solid var(--ink);
+  font-weight: 600;
+}
+
+.ledger__total strong {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.agency-balance {
+  margin-bottom: 0.25rem;
+}
+
+/* —— Responsive —— */
+
+@media (max-width: 860px) {
+  .step-nav__list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .ledger-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .insight-grid,
+  .summary-grid,
+  .experiment__fields {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-stage,
+  .flow-stage__main {
+    flex-direction: column;
+  }
+
+  .flow-arrow:not(.flow-arrow--down) {
+    min-width: 0;
+    width: 100%;
+    max-width: 240px;
+  }
+
+  .flow-arrow:not(.flow-arrow--down) .flow-arrow__line {
+    flex-direction: column;
+    width: auto;
+    height: 44px;
+  }
+
+  .flow-arrow:not(.flow-arrow--down) .flow-arrow__shaft {
+    width: 3px;
+    height: 100%;
+  }
+
+  .flow-arrow:not(.flow-arrow--down) .flow-arrow__head {
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 10px solid var(--accent);
+    border-bottom: 0;
+  }
+
+  .flow-arrow--excl:not(.flow-arrow--down) .flow-arrow__head {
+    border-top-color: var(--com);
+  }
+
+  .flow-arrow--vat:not(.flow-arrow--down) .flow-arrow__head {
+    border-top-color: var(--agency);
+  }
+
+  .flow-arrow--refund:not(.flow-arrow--down) .flow-arrow__head {
+    border-top-color: var(--accent-bright);
+  }
+
+  .actor-card {
+    max-width: none;
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .step-nav__short {
+    font-size: 0.68rem;
+  }
+
+  .step-nav__controls {
+    justify-content: stretch;
+  }
+
+  .step-nav__controls .btn {
+    flex: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+
+const STEPS = [
+  { id: 1, short: "Intro" },
+  { id: 2, short: "Aktörer" },
+  { id: 3, short: "A.se" },
+  { id: 4, short: "B.com" },
+  { id: 5, short: "D.com" },
+  { id: 6, short: "Netto" },
+  { id: 7, short: "SKV" },
+];
+
+const DEFAULT_AMOUNTS = {
+  purchaseAExcl: 8000,
+  purchaseBExcl: 4000,
+  saleDExcl: 20000,
+  vatRate: 0.25,
+};
+
+const state = {
+  step: 0,
+  amounts: { ...DEFAULT_AMOUNTS },
+};
+
+function vatOf(excl, rate) {
+  return Math.round(excl * rate);
+}
+
+function calculateVat(amounts) {
+  const { purchaseAExcl, purchaseBExcl, saleDExcl, vatRate } = amounts;
+  const vatFromA = vatOf(purchaseAExcl, vatRate);
+  const payToA = purchaseAExcl + vatFromA;
+  const vatFromB = vatOf(purchaseBExcl, vatRate);
+  const payToB = purchaseBExcl;
+  const payFromD = saleDExcl;
+  const outgoingVatSale = 0;
+  const outgoingVatReverse = vatFromB;
+  const outgoingVat = outgoingVatSale + outgoingVatReverse;
+  const incomingVat = vatFromA + vatFromB;
+  const netWithTaxAgency = incomingVat - outgoingVat;
+  const taxAgency = {
+    incomeFromA: vatFromA,
+    incomeFromReverseCharge: vatFromB,
+    incomeFromSaleD: outgoingVatSale,
+    totalIncome: vatFromA + vatFromB + outgoingVatSale,
+    expenseDeductionA: vatFromA,
+    expenseDeductionB: vatFromB,
+    totalExpense: vatFromA + vatFromB,
+    net: vatFromA + vatFromB + outgoingVatSale - (vatFromA + vatFromB),
+  };
+  return {
+    vatFromA, payToA, vatFromB, payToB, payFromD,
+    outgoingVatSale, outgoingVatReverse, outgoingVat,
+    incomingVat, netWithTaxAgency, taxAgency,
+  };
+}
+
+function formatSek(amount) {
+  return new Intl.NumberFormat("sv-SE", {
+    style: "currency",
+    currency: "SEK",
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
+
+function formatPercent(rate) {
+  return `${Math.round(rate * 100)} %`;
+}
+
+function parseNumber(raw) {
+  const n = Number(String(raw).replace(/\s/g, "").replace(",", "."));
+  return Number.isFinite(n) && n >= 0 ? n : 0;
+}
+
+function actorCard(name, subtitle, kind, compact) {
+  const badge = kind === "agency" ? "SV" : kind === "com" ? ".com" : ".se";
+  return `
+    <article class="actor-card actor-card--${kind} is-active${compact ? " actor-card--compact" : ""}">
+      <span class="actor-card__badge" aria-hidden="true">${badge}</span>
+      <h3 class="actor-card__name">${name}</h3>
+      ${subtitle ? `<p class="actor-card__subtitle">${subtitle}</p>` : ""}
+    </article>`;
+}
+
+function flowArrow(label, amount, note, variant, direction) {
+  const dir = direction || "right";
+  const v = variant || "neutral";
+  return `
+    <div class="flow-arrow flow-arrow--${dir} flow-arrow--${v}" role="img" aria-label="${label}${amount ? ": " + amount : ""}">
+      <div class="flow-arrow__label">
+        <span class="flow-arrow__tag">${label}</span>
+        ${amount ? `<strong class="flow-arrow__amount">${amount}</strong>` : ""}
+        ${note ? `<span class="flow-arrow__note">${note}</span>` : ""}
+      </div>
+      <div class="flow-arrow__line" aria-hidden="true">
+        <span class="flow-arrow__shaft"></span>
+        <span class="flow-arrow__head"></span>
+      </div>
+    </div>`;
+}
+
+function stepIntro() {
+  return `
+    <div class="step-panel">
+      <p class="step-kicker">Steg 1 · Introduktion</p>
+      <h2 class="step-title">Hur moms rör sig mellan svenska och utländska företag</h2>
+      <p class="step-lead">Moms är en skatt på konsumtion. Företag samlar in och redovisar den till Skatteverket — men reglerna skiljer sig beroende på om motparten är svensk eller utländsk.</p>
+      <div class="insight-grid">
+        <article class="insight-card"><h3>Inköp i Sverige</h3><p>När C.se handlar från A.se betalas beloppet <strong>inklusive moms</strong>. Leverantören sköter momsen mot Skatteverket.</p></article>
+        <article class="insight-card"><h3>Inköp från utlandet</h3><p>Från B.com betalar C ofta <strong>exklusive moms</strong>, men redovisar momsen själv till Skatteverket (omvänd skattskyldighet).</p></article>
+        <article class="insight-card"><h3>Exportförsäljning</h3><p>När C.se säljer till D.com faktureras normalt <strong>utan moms</strong>. Då kan C behöva kompensation för momsen på sina inköp.</p></article>
+      </div>
+      <aside class="obs-note"><strong>Obs.</strong> Detta är en förenklad pedagogisk modell — inte en komplett momshandbok. Fokus ligger på flödet av belopp och moms mellan aktörerna.</aside>
+    </div>`;
+}
+
+function stepActors() {
+  return `
+    <div class="step-panel">
+      <p class="step-kicker">Steg 2 · Aktörer</p>
+      <h2 class="step-title">Fem aktörer i exemplet</h2>
+      <p class="step-lead">.se betyder svenskt företag. .com betyder utländskt företag i den här modellen. Skatteverket är knutpunkten för momsredovisning och eventuell kompensation.</p>
+      <div class="actors-stage">
+        <div class="actors-row">${actorCard("A.se", "Svensk leverantör", "se")}${actorCard("B.com", "Utländsk leverantör", "com")}</div>
+        <div class="actors-row actors-row--center">${actorCard("C.se", "Vårt fokusföretag — köper och säljer", "highlight")}</div>
+        <div class="actors-row">${actorCard("D.com", "Utländsk kund", "com")}${actorCard("Skatteverket", "Moms redovisas hit / kompensation härifrån", "agency")}</div>
+      </div>
+    </div>`;
+}
+
+function stepPurchaseA(a, b) {
+  return `
+    <div class="step-panel">
+      <p class="step-kicker">Steg 3 · Inköp från A.se</p>
+      <h2 class="step-title">C.se betalar belopp inklusive moms</h2>
+      <p class="step-lead">När C.se köper från det svenska företaget A.se ingår momsen i fakturan. C betalar hela beloppet till A. A redovisar den utgående momsen till Skatteverket.</p>
+      <div class="flow-stage">
+        ${actorCard("A.se", "Svensk säljare", "se")}
+        ${flowArrow(`Inkl. moms (${formatPercent(a.vatRate)})`, formatSek(b.payToA), `${formatSek(a.purchaseAExcl)} + ${formatSek(b.vatFromA)} moms`, "incl")}
+        ${actorCard("C.se", "Köpare", "highlight")}
+      </div>
+      <div class="figure-box">
+        <div class="figure-box__row"><span>Exkl. moms</span><strong>${formatSek(a.purchaseAExcl)}</strong></div>
+        <div class="figure-box__row"><span>Moms (${formatPercent(a.vatRate)})</span><strong class="is-vat">${formatSek(b.vatFromA)}</strong></div>
+        <div class="figure-box__row figure-box__row--total"><span>C betalar till A</span><strong>${formatSek(b.payToA)}</strong></div>
+      </div>
+      <aside class="obs-note"><strong>Ingående moms.</strong> För C.se är momsen på inköpet från A en ingående moms som kan dras av — förutsatt att C är momsregistrerat och köpet gäller momspliktig verksamhet.</aside>
+    </div>`;
+}
+
+function stepPurchaseB(a, b) {
+  return `
+    <div class="step-panel">
+      <p class="step-kicker">Steg 4 · Inköp från B.com</p>
+      <h2 class="step-title">C.se betalar exklusive moms — men redovisar till Skatteverket</h2>
+      <p class="step-lead">Från utländska B.com betalar C ofta bara beloppet utan moms. Momsen redovisas i stället av C till Skatteverket genom <em>omvänd skattskyldighet</em> (reverse charge): C redovisar både utgående och ingående moms för köpet.</p>
+      <div class="flow-stage flow-stage--stack">
+        <div class="flow-stage__main">
+          ${actorCard("B.com", "Utländsk säljare", "com")}
+          ${flowArrow("Exkl. moms", formatSek(b.payToB), "Ingen moms till B", "excl")}
+          ${actorCard("C.se", "Köpare", "highlight")}
+        </div>
+        <div class="flow-stage__side">
+          ${flowArrow("Moms redovisas", formatSek(b.vatFromB), "Omvänd skattskyldighet", "vat", "down")}
+          ${actorCard("Skatteverket", "C redovisar momsen hit", "agency", true)}
+        </div>
+      </div>
+      <div class="figure-box">
+        <div class="figure-box__row"><span>Belopp till B.com</span><strong>${formatSek(b.payToB)}</strong></div>
+        <div class="figure-box__row"><span>Moms att redovisa (${formatPercent(a.vatRate)})</span><strong class="is-vat">${formatSek(b.vatFromB)}</strong></div>
+        <div class="figure-box__row figure-box__row--total"><span>C:s totala kostnad (exkl. avdragsrätt)</span><strong>${formatSek(b.payToB + b.vatFromB)}</strong></div>
+      </div>
+      <aside class="obs-note"><strong>Obs · Omvänd skattskyldighet.</strong> C betalar inte moms till B, men redovisar momsen till Skatteverket. När C har avdragsrätt för ingående moms blir nettot ofta noll för just den momsen — men den syns i redovisningen.</aside>
+    </div>`;
+}
+
+function stepSaleD(a, b) {
+  return `
+    <div class="step-panel">
+      <p class="step-kicker">Steg 5 · Försäljning till D.com</p>
+      <h2 class="step-title">D.com betalar ingen moms till C.se</h2>
+      <p class="step-lead">När C.se säljer till utländska D.com faktureras normalt utan svensk moms (export / omsättning utanför Sverige). D betalar bara nettopriset. C får därmed <strong>ingen utgående moms</strong> från den här försäljningen.</p>
+      <div class="flow-stage">
+        ${actorCard("C.se", "Svensk säljare", "highlight")}
+        ${flowArrow("Export · 0 % moms", formatSek(b.payFromD), "D betalar ingen moms", "excl")}
+        ${actorCard("D.com", "Utländsk köpare", "com")}
+      </div>
+      <div class="figure-box">
+        <div class="figure-box__row"><span>Försäljningspris</span><strong>${formatSek(a.saleDExcl)}</strong></div>
+        <div class="figure-box__row"><span>Utgående moms</span><strong class="is-zero">${formatSek(b.outgoingVatSale)}</strong></div>
+        <div class="figure-box__row figure-box__row--total"><span>D betalar till C</span><strong>${formatSek(b.payFromD)}</strong></div>
+      </div>
+      <aside class="obs-note"><strong>Nyckelpoäng.</strong> C har redan betalat (eller redovisat) moms på sina inköp, men får ingen moms in från D. Differensen behöver hanteras mot Skatteverket — det ser vi i nästa steg.</aside>
+    </div>`;
+}
+
+function stepNetto(a, b) {
+  return `
+    <div class="step-panel">
+      <p class="step-kicker">Steg 6 · Momsnetto &amp; experiment</p>
+      <h2 class="step-title">C.se behöver kompensation från Skatteverket</h2>
+      <p class="step-lead">C redovisar ingående moms från inköpen och utgående moms för den omvända skattskyldigheten (B.com), men <strong>ingen</strong> utgående moms från exporten till D. Differensen — i praktiken momsen från A.se — får C normalt tillbaka från Skatteverket.</p>
+      <div class="flow-stage flow-stage--refund">
+        ${actorCard("Skatteverket", "Momsmyndighet", "agency")}
+        ${flowArrow("Kompensation", formatSek(b.netWithTaxAgency), "Återbetalning / avräkning till C", "refund")}
+        ${actorCard("C.se", "Momsnetto", "highlight")}
+      </div>
+      <div class="summary-grid">
+        <div class="figure-box">
+          <h3 class="figure-box__heading">Ingående moms</h3>
+          <div class="figure-box__row"><span>Från A.se</span><strong>${formatSek(b.vatFromA)}</strong></div>
+          <div class="figure-box__row"><span>Från B.com (redovisad)</span><strong>${formatSek(b.vatFromB)}</strong></div>
+          <div class="figure-box__row figure-box__row--total"><span>Summa</span><strong>${formatSek(b.incomingVat)}</strong></div>
+        </div>
+        <div class="figure-box">
+          <h3 class="figure-box__heading">Utgående moms</h3>
+          <div class="figure-box__row"><span>Försäljning till D.com</span><strong class="is-zero">${formatSek(b.outgoingVatSale)}</strong></div>
+          <div class="figure-box__row"><span>Omvänd skattskyldighet B.com</span><strong class="is-vat">${formatSek(b.outgoingVatReverse)}</strong></div>
+          <div class="figure-box__row"><span>Summa utgående</span><strong>${formatSek(b.outgoingVat)}</strong></div>
+          <div class="figure-box__row figure-box__row--total"><span>Netto mot Skatteverket</span><strong class="is-refund">${formatSek(b.netWithTaxAgency)}</strong></div>
+          <p class="figure-box__hint">Positivt belopp = C får tillbaka / kompenseras. Omvänd moms på B tar ut sig själv (samma belopp som ingående).</p>
+        </div>
+      </div>
+      <section class="experiment" aria-labelledby="experiment-heading">
+        <div class="experiment__header">
+          <h3 id="experiment-heading">Experimentera med beloppen</h3>
+          <button type="button" class="btn btn--ghost btn--small" data-action="reset">Återställ exempel</button>
+        </div>
+        <p class="experiment__lead">Ändra beloppen nedan — flödena och momsnettot uppdateras direkt. Default: A ${formatSek(DEFAULT_AMOUNTS.purchaseAExcl)}, B ${formatSek(DEFAULT_AMOUNTS.purchaseBExcl)}, D ${formatSek(DEFAULT_AMOUNTS.saleDExcl)}, moms ${formatPercent(DEFAULT_AMOUNTS.vatRate)}.</p>
+        <div class="experiment__fields">
+          <label class="field"><span>Inköp från A.se (exkl. moms)</span><input type="number" min="0" step="100" data-field="purchaseAExcl" value="${a.purchaseAExcl}" /></label>
+          <label class="field"><span>Inköp från B.com (exkl. moms)</span><input type="number" min="0" step="100" data-field="purchaseBExcl" value="${a.purchaseBExcl}" /></label>
+          <label class="field"><span>Försäljning till D.com (exkl. moms)</span><input type="number" min="0" step="100" data-field="saleDExcl" value="${a.saleDExcl}" /></label>
+          <label class="field"><span>Momssats (%)</span><input type="number" min="0" max="100" step="1" data-field="vatRatePct" value="${Math.round(a.vatRate * 100)}" /></label>
+        </div>
+        <div class="live-pills" aria-live="polite">
+          <span class="pill">C → A: ${formatSek(b.payToA)}</span>
+          <span class="pill">C → B: ${formatSek(b.payToB)}</span>
+          <span class="pill">D → C: ${formatSek(b.payFromD)}</span>
+          <span class="pill pill--accent">Kompensation: ${formatSek(b.netWithTaxAgency)}</span>
+        </div>
+      </section>
+      <aside class="obs-note"><strong>Obs.</strong> I verkligheten beror redovisning och återbetalning på deklarationsperiod, avdragsrätt och vilken typ av gränsöverskridande handel det gäller (EU vs tredjeland). Här visar vi principen bakom flödet.</aside>
+    </div>`;
+}
+
+function stepAgency(b) {
+  const books = b.taxAgency;
+  const netLabel = books.net === 0
+    ? "Noll — momsen stannar inte i Sverige"
+    : books.net > 0
+      ? "Överskott till staten"
+      : "Underskott (staten betalar mer än den får in)";
+  const netClass = books.net === 0 ? "is-zero" : books.net > 0 ? "is-vat" : "is-refund";
+  return `
+    <div class="step-panel">
+      <p class="step-kicker">Steg 7 · Skatteverkets böcker</p>
+      <h2 class="step-title">Vad får Skatteverket in — och vad betalar de ut?</h2>
+      <p class="step-lead">Här samlar vi hela exemplet ur Skatteverkets perspektiv: vilka momsbelopp som redovisas som inkomster, vilka avdrag som blir utgifter, och vad nettot blir för staten i just det här flödet.</p>
+      <div class="agency-hero">
+        ${actorCard("Skatteverket", "Summering av hela exemplet", "agency")}
+        <div class="agency-hero__net">
+          <span class="agency-hero__label">Netto i exemplet</span>
+          <strong class="${netClass}">${formatSek(books.net)}</strong>
+          <span class="agency-hero__hint">${netLabel}</span>
+        </div>
+      </div>
+      <div class="ledger-grid">
+        <section class="ledger ledger--income" aria-labelledby="income-heading">
+          <h3 id="income-heading" class="ledger__title">Inkomster</h3>
+          <p class="ledger__intro">Moms som redovisas in till Skatteverket</p>
+          <ul class="ledger__list">
+            <li><div><strong>Från A.se</strong><span>Utgående moms på försäljningen till C.se</span></div><em>+${formatSek(books.incomeFromA)}</em></li>
+            <li><div><strong>Från C.se (omvänd skattskyldighet)</strong><span>Moms på inköpet från B.com som C själv redovisar</span></div><em>+${formatSek(books.incomeFromReverseCharge)}</em></li>
+            <li><div><strong>Från C.se (försäljning till D.com)</strong><span>Export — ingen utgående moms</span></div><em>+${formatSek(books.incomeFromSaleD)}</em></li>
+          </ul>
+          <div class="ledger__total"><span>Summa inkomster</span><strong>${formatSek(books.totalIncome)}</strong></div>
+        </section>
+        <section class="ledger ledger--expense" aria-labelledby="expense-heading">
+          <h3 id="expense-heading" class="ledger__title">Utgifter</h3>
+          <p class="ledger__intro">Avdrag / kompensation som Skatteverket medger</p>
+          <ul class="ledger__list">
+            <li><div><strong>Avdrag till C.se · inköp A.se</strong><span>Ingående moms som C får dra av</span></div><em>−${formatSek(books.expenseDeductionA)}</em></li>
+            <li><div><strong>Avdrag till C.se · inköp B.com</strong><span>Ingående moms vid omvänd skattskyldighet</span></div><em>−${formatSek(books.expenseDeductionB)}</em></li>
+          </ul>
+          <div class="ledger__total"><span>Summa utgifter</span><strong>${formatSek(books.totalExpense)}</strong></div>
+        </section>
+      </div>
+      <div class="figure-box agency-balance">
+        <h3 class="figure-box__heading">Balansräkning för exemplet</h3>
+        <div class="figure-box__row"><span>Inkomster</span><strong>${formatSek(books.totalIncome)}</strong></div>
+        <div class="figure-box__row"><span>Utgifter</span><strong>−${formatSek(books.totalExpense)}</strong></div>
+        <div class="figure-box__row figure-box__row--total"><span>Netto för Skatteverket</span><strong class="${books.net === 0 ? "is-zero" : ""}">${formatSek(books.net)}</strong></div>
+        <p class="figure-box__hint">Kassaflöde i korthet: A betalar in ${formatSek(books.incomeFromA)}. C:s deklaration nettar omvänd skattskyldighet (${formatSek(books.incomeFromReverseCharge)} in och ${formatSek(books.expenseDeductionB)} ut) och C får tillbaka ${formatSek(b.netWithTaxAgency)} (främst momsen från A). Resultat: ${formatSek(books.net)}.</p>
+      </div>
+      <aside class="obs-note"><strong>Pedagogisk poäng.</strong> När varorna till slut säljs utomlands (till D.com) blir svensk moms normalt inte en nettoinkomst för staten i kedjan — inkomster och avdrag tar ut varandra. Momsen är tänkt att belasta slutkonsumenten i konsumtionslandet, inte exportören.</aside>
+    </div>`;
+}
+
+function renderStepContent() {
+  const a = state.amounts;
+  const b = calculateVat(a);
+  switch (state.step) {
+    case 0: return stepIntro();
+    case 1: return stepActors();
+    case 2: return stepPurchaseA(a, b);
+    case 3: return stepPurchaseB(a, b);
+    case 4: return stepSaleD(a, b);
+    case 5: return stepNetto(a, b);
+    case 6: return stepAgency(b);
+    default: return "";
+  }
+}
+
+function render() {
+  const app = document.getElementById("app");
+  const isFirst = state.step === 0;
+  const isLast = state.step === STEPS.length - 1;
+  const navItems = STEPS.map((step, index) => {
+    const cls = index === state.step ? "current" : index < state.step ? "done" : "todo";
+    return `
+      <li class="step-nav__item is-${cls}">
+        <button type="button" class="step-nav__btn" data-action="goto" data-step="${index}" ${index === state.step ? 'aria-current="step"' : ""}>
+          <span class="step-nav__num">${index + 1}</span>
+          <span class="step-nav__short">${step.short}</span>
+        </button>
+      </li>`;
+  }).join("");
+
+  app.innerHTML = `
+    <div class="app-shell">
+      <div class="bg-mesh" aria-hidden="true"></div>
+      <div class="bg-grid" aria-hidden="true"></div>
+      <header class="site-header">
+        <p class="brand">Momsflöde</p>
+        <p class="brand-tag">Pedagogisk modell · Sverige ↔ utlandet</p>
+      </header>
+      <main class="main">
+        <nav class="step-nav" aria-label="Pedagogiska steg">
+          <ol class="step-nav__list">${navItems}</ol>
+          <div class="step-nav__controls">
+            <button type="button" class="btn btn--ghost" data-action="prev" ${isFirst ? "disabled" : ""}>Föregående</button>
+            <button type="button" class="btn btn--primary" data-action="next" ${isLast ? "disabled" : ""}>${isLast ? "Klart" : "Nästa"}</button>
+          </div>
+        </nav>
+        <section class="step-stage">${renderStepContent()}</section>
+      </main>
+      <footer class="site-footer">
+        <p>Förenklad illustration av moms vid inköp och export. Inte skatterådgivning.</p>
+      </footer>
+    </div>`;
+}
+
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-action]");
+  if (!btn) return;
+  const action = btn.getAttribute("data-action");
+  if (action === "prev") {
+    state.step = Math.max(0, state.step - 1);
+    render();
+  } else if (action === "next") {
+    state.step = Math.min(STEPS.length - 1, state.step + 1);
+    render();
+  } else if (action === "goto") {
+    state.step = Number(btn.getAttribute("data-step"));
+    render();
+  } else if (action === "reset") {
+    state.amounts = { ...DEFAULT_AMOUNTS };
+    render();
+  }
+});
+
+document.addEventListener("input", (e) => {
+  const field = e.target.getAttribute("data-field");
+  if (!field) return;
+  const value = parseNumber(e.target.value);
+  if (field === "vatRatePct") {
+    state.amounts.vatRate = value / 100;
+  } else {
+    state.amounts[field] = value;
+  }
+  // Soft update: re-render but restore focus/selection
+  const activeField = field;
+  const selStart = e.target.selectionStart;
+  const selEnd = e.target.selectionEnd;
+  render();
+  const input = document.querySelector(`[data-field="${activeField}"]`);
+  if (input) {
+    input.focus();
+    try { input.setSelectionRange(selStart, selEnd); } catch (_) {}
+  }
+});
+
+render();
+
+  </script>
+</body>
+</html>
